@@ -1,17 +1,25 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import App from './app';
 
 describe('App', () => {
+  let appContainer;
+  beforeEach(() => {
+    const { container } = render(<App />)
+    appContainer = container;
+  })
   it('should render successfully', () => {
-    const { baseElement } = render(<App />);
-
-    expect(baseElement).toBeTruthy();
+    expect(appContainer).toBeTruthy();
   });
 
-  it('should have a greeting as the title', () => {
-    const { getByText } = render(<App />);
+  it('should have parent container for categories ', () => {
+    const categoriesContainer = appContainer.querySelector(".categories-container");
+    expect(categoriesContainer).toBeTruthy();
+  })
 
-    expect(getByText(/Welcome crwn-clothing/gi)).toBeTruthy();
+  it('should display 5 categories', () => {
+    const categoriesCount = appContainer.querySelectorAll(".category-container");
+
+    expect(categoriesCount.length).toEqual(5);
   });
 });
